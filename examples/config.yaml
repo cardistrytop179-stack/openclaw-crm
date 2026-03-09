@@ -1,2 +1,20 @@
-google:
-  crm_spreadsheet_id: "YOUR_SPREADSHEET_ID_HERE"
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "cardistrytop179-stack", "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Позволяет запускать вручную кнопкой
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Далее ваши шаги (Python, Ruff, и т.д.)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
