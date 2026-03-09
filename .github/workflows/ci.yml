@@ -8,6 +8,12 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+# Добавьте разрешения для безопасности
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -24,21 +30,22 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
     
+    # ИСПРАВЛЕНО: Все команды внутри run должны иметь правильный отступ
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install .
-pip install pytest ruff bandit safety pytest-cov
-
+        pip install pytest ruff bandit safety pytest-cov
     
     - name: Lint with ruff
       run: |
         ruff check .
         ruff format --check .
     
+    # Добавлена генерация отчётов о покрытии
     - name: Run tests
       run: |
-        python -m pytest -v --tb=short
+        python -m pytest -v --tb=short --cov=. --cov-report=xml --cov-report=html -o junitxml=test-reports/junit.xml
     
     - name: Upload test results
       if: always()
@@ -48,6 +55,8 @@ pip install pytest ruff bandit safety pytest-cov
         path: |
           test-reports/
           .coverage
+          coverage.xml
+          htmlcov/
 
   security:
     runs-on: ubuntu-latest
@@ -61,19 +70,21 @@ pip install pytest ruff bandit safety pytest-cov
       with:
         python-version: '3.11'
     
+    # ИСПРАВЛЕНО: Отступ для pip install
     - name: Install security tools
       run: |
-       pip install .
-pip install bandit safety
-
+        pip install .
+        pip install bandit safety
     
     - name: Run Bandit security scan
       run: |
         bandit -r src/openclaw_crm -f json -o bandit-report.json || true
+        bandit -r src/openclaw_crm -f screen || true  # Добавлен вывод в консоль
     
+    # ИСПРАВЛЕНО: safety check устарел, используйте safety scan
     - name: Run Safety check
       run: |
-        safety check --json --output safety-report.json || true
+        safety scan --json --output safety-report.json || true
     
     - name: Upload security reports
       if: always()
