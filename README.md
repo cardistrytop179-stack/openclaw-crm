@@ -1,6 +1,6 @@
 # openclaw-crm
 
-Lightweight CRM pipeline tracker backed by Google Sheets. Built for small agencies and solo operators who want pipeline visibility without paying for Salesforce.
+Lightweight CRM pipeline tracker backed by Google Sheets.  Built for small agencies and solo operators who want pipeline visibility without paying for Salesforce.
 
 ## Features
 
