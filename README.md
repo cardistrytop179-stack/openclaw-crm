@@ -35,7 +35,7 @@ openclaw-crm network
 
 ## Spreadsheet Setup
 
-Create a Google Sheet with two tabs:
+Create a  Google Sheet with two tabs:
 
 ### Pipeline (21 columns, A:U)
 
