@@ -37,7 +37,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/openclaw_crm"]
+packages = ["openclaw_crm"]
 
 # ИСПРАВЛЕНО: Ruff конфигурация перенесена в [tool.ruff.lint]
 [tool.ruff]
